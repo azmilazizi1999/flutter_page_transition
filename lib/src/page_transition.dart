@@ -11,6 +11,9 @@ class PageTransition<T> extends PageRouteBuilder<T> {
   final Widget child;
 
   /// Child for your next page
+  final Widget exitChild;
+
+  /// Child for your next page
   final Widget? childCurrent;
 
   /// Transition types
@@ -41,7 +44,8 @@ class PageTransition<T> extends PageRouteBuilder<T> {
   final bool opaque;
 
   /// Page transition constructor. We can pass the next page as a child,
-  PageTransition({
+  PageTransition(
+    this.exitChild, {
     Key? key,
     required this.child,
     required this.type,
@@ -143,6 +147,29 @@ class PageTransition<T> extends PageRouteBuilder<T> {
                       child: child,
                     ),
                   ),
+                );
+                // ignore: dead_code
+                break;
+
+              /// PageTransitionType.downToUpWithExit which is the give us down to up transition with Exit
+              case PageTransitionType.bottomToTopWithExit:
+                return Stack(
+                  children: <Widget>[
+                    SlideTransition(
+                      position: new Tween<Offset>(
+                        begin: const Offset(0.0, 0.0),
+                        end: const Offset(-1.0, 0.0),
+                      ).animate(animation),
+                      child: exitChild,
+                    ),
+                    SlideTransition(
+                      position: new Tween<Offset>(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    )
+                  ],
                 );
                 // ignore: dead_code
                 break;
