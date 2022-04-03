@@ -55,11 +55,9 @@ class PageTransition<T> extends PageRouteBuilder<T> {
     this.fullscreenDialog = false,
     this.opaque = false,
     RouteSettings? settings,
-  })  : assert(inheritTheme ? ctx != null : true,
-            "'ctx' cannot be null when 'inheritTheme' is true, set ctx: context"),
+  })  : assert(inheritTheme ? ctx != null : true, "'ctx' cannot be null when 'inheritTheme' is true, set ctx: context"),
         super(
-          pageBuilder: (BuildContext context, Animation<double> animation,
-              Animation<double> secondaryAnimation) {
+          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
             return inheritTheme
                 ? InheritedTheme.captureAll(
                     ctx!,
@@ -72,11 +70,8 @@ class PageTransition<T> extends PageRouteBuilder<T> {
           settings: settings,
           maintainState: true,
           opaque: opaque,
-          fullscreenDialog: fullscreenDialog, 
-          transitionsBuilder: (BuildContext context,
-              Animation<double> animation,
-              Animation<double> secondaryAnimation,
-              Widget child) {
+          fullscreenDialog: fullscreenDialog,
+          transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
             switch (type) {
               case PageTransitionType.fade:
                 return FadeTransition(opacity: animation, child: child);
@@ -127,6 +122,27 @@ class PageTransition<T> extends PageRouteBuilder<T> {
                     end: Offset.zero,
                   ).animate(animation),
                   child: child,
+                );
+                // ignore: dead_code
+                break;
+
+              /// PageTransitionType.downToUpWithFade which is the give us down to up transition with Fade
+              case PageTransitionType.bottomToTopWithFade:
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  ),
                 );
                 // ignore: dead_code
                 break;

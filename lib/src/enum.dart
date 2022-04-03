@@ -17,6 +17,10 @@ enum PageTransitionType {
 
   bottomToTop,
 
+  /// bottom the top animation with fade
+
+  bottomToTopWithFade,
+
   /// scale animation
 
   scale,
