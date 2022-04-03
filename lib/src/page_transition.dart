@@ -11,7 +11,7 @@ class PageTransition<T> extends PageRouteBuilder<T> {
   final Widget child;
 
   /// Child for your next page
-  final Widget exitChild;
+  final Widget? exitChild;
 
   /// Child for your next page
   final Widget? childCurrent;
@@ -44,11 +44,11 @@ class PageTransition<T> extends PageRouteBuilder<T> {
   final bool opaque;
 
   /// Page transition constructor. We can pass the next page as a child,
-  PageTransition(
-    this.exitChild, {
+  PageTransition({
     Key? key,
     required this.child,
     required this.type,
+    this.exitChild = null,
     this.childCurrent = null,
     this.ctx,
     this.inheritTheme = false,
